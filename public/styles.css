@@ -7,9 +7,31 @@ body {
       text-align: center;
   }
   
+  .google {
+    background-color: #DD4B39;
+    color:#fff
+  }
+
+  .facebook {
+    background-color: #3B5998;
+    color:#fff
+  }
+
   .secret-text {
     text-align: center;
     font-size: 2rem;
     color: #fff;
     background-color: #000;
+  }
+
+  .bin {
+    display: inline;
+    background: none;
+    padding: 0px;
+    border: none;
+    margin-bottom: 10px;
+  }
+
+  .notbin {
+    display: block;
   }
