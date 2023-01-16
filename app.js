@@ -10,6 +10,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 const FacebookStrategy = require("passport-facebook").Strategy;
+const PORT = 10000 || 3030;
 
 const errors = ["","Incorrect Username", "Wrong Password, Please try again"];
 
@@ -244,9 +245,9 @@ app.get('/auth/facebook/secrets',
   });
 
 
-app.listen(443, function() {
-    console.log("listening on port 443")
-});
+  app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+  });
 
 
 // mongoose-encryption(used to encrypt passwords, can authenticate)
