@@ -29,8 +29,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+const URL = process.env.CONNECT_URL;
 
- mongoose.connect("mongodb://localhost:27017/usersDB", {useNewUrlParser: true}, (err) => {
+ mongoose.connect(URL, {useNewUrlParser: true}, (err) => {
     if(err) console.log(err) 
     else console.log("mongdb is connected");
    });
