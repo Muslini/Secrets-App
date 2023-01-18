@@ -12,7 +12,7 @@ const findOrCreate = require("mongoose-findorcreate");
 const FacebookStrategy = require("passport-facebook").Strategy;
 const PORT = 10000 || 3030;
 
-const errors = ["","Incorrect Username", "Wrong Password, Please try again"];
+const messages = ["", "Incorrect email or password, Please try again.", "Registration was successful, please login!"];
 
 app.set("view engine", "ejs")
 app.use(bodyParser.urlencoded({extended: true}));
@@ -97,40 +97,42 @@ app.get("/", function(req, res) {
 
 app.route("/register")
     .get(function(req, res) {
-        res.render("register")
+        res.render("register", {displayFailure: messages[0]})
     })
     .post(function(req, res) {
         User.register({username: req.body.username}, req.body.password, function(err, user) {
             if(err) {
                 console.log(err);
-                res.redirect("/register")
+                res.render("register", {displayFailure: err})
             } else {
-                res.redirect("/login")
+              res.render("login", {displaySuccess: messages[2], displayError: messages[0]})
             }
         })
     });
 
 app.route("/login")
     .get(function(req, res) {
-        res.render("login", {displayError: errors[0]})
+        res.render("login", {displayError: messages[0]})
     })
-    .post(function(req, res) {
+    .post(function(req, res, next) {
         const user = new User ({
             username: req.body.username,
             password: req.body.password
         })
-
-        req.login(user, function(err) {
+        passport.authenticate("local", function(err, user, info){
+          if(err) {
+            return next(err)
+          }
+          if(!user) {
+            return res.render("login", {displayError: messages[1]})
+          }
+          req.login(user, function(err) {
             if(err) {
-                res.send(err);
-                // res.render("login", {displayError: errors[1]})
-            } else {
-               passport.authenticate("local") (req, res, function() {
-                   res.redirect("/secrets")
-               }) 
+                return next(err);
             }
-
-        })
+            return res.redirect("/secrets")
+            });
+        }) (req, res, next);
     });
 
 app.get("/logout", function(req, res) {

@@ -11,9 +11,10 @@
             <!-- Makes POST request to /login route -->
             <form action="/login" method="POST">
               <div class="form-group">
+                <p style="color: red"><%=displayError%></p>
+                <p style="color: #343a40,"><%=displaySuccess%></p>
                 <label for="email">Email</label>
                 <input type="email" class="form-control" name="username">
-                <p style="color: red"><%=displayError%></p>
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
