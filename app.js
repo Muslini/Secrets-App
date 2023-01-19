@@ -112,7 +112,7 @@ app.route("/register")
 
 app.route("/login")
     .get(function(req, res) {
-        res.render("login", {displayError: messages[0]})
+        res.render("login", {displayError: messages[0], displaySuccess: messages[0]})
     })
     .post(function(req, res, next) {
         const user = new User ({
@@ -124,7 +124,7 @@ app.route("/login")
             return next(err)
           }
           if(!user) {
-            return res.render("login", {displayError: messages[1]})
+            return res.render("login", {displayError: messages[1], displaySuccess: messages[0]})
           }
           req.login(user, function(err) {
             if(err) {
